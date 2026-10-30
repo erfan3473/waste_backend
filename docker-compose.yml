@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  waste_web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: waste_django
+    restart: unless-stopped
+    command: daphne -b 0.0.0.0 -p 8000 core.asgi:application
+    ports:
+      - "127.0.0.1:8001:8000"
+    environment:
+      - DJANGO_SETTINGS_MODULE=core.settings
+      - PYTHONUNBUFFERED=1
+      - TZ=Asia/Tehran
+    volumes:
+      - .:/app
+      - ./media:/app/media
+      - ./staticfiles:/app/staticfiles
+
+networks:
+  default:
+    name: ario_shared_network
+    external: true

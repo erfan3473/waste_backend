@@ -1,0 +1,26 @@
+# --- Django Core & DB ---
+Django>=5.0
+django-environ
+psycopg2-binary
+
+# --- ASGI & WebSocket ---
+daphne
+channels
+channels-redis
+
+# --- REST Framework & Auth ---
+djangorestframework
+djangorestframework-simplejwt
+django-cors-headers
+whitenoise
+
+# --- Async Tasks & Cache ---
+celery
+redis
+
+# --- Date & Utilities ---
+jdatetime
+django-jalali
+pytz
+requests
+Pillow
