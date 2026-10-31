@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'django.contrib.postgres',
     'rest_framework',
+    'rest_framework.authtoken',  # 👈 این خط حتماً باید اضافه شود
     'corsheaders',
     'channels',
     'waste',
@@ -68,11 +69,14 @@ DATABASES = {
     }
 }
 
+# در settings.py پروژه waste_backend
+
 CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            'hosts': [('my_redis', 6379)],
+    "default": {
+        "BACKEND": "channels_redis.pubsub.RedisPubSubChannelLayer",
+        "CONFIG": {
+            "hosts": ["redis://my_redis:6379/4"],  # 👈 دیتابیس مستقل ۴
+            "prefix": "waste_eco:",                # 👈 پیشوند اختصاصی جهت ایزوله‌سازی
         },
     },
 }
@@ -88,6 +92,13 @@ CSRF_TRUSTED_ORIGINS = [
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # دامنه مجاز (در کنار * برای اطمینان بیشتر)
+MELIPAYAMAK_API_KEY="b2dx-01a7-44ae-aa6f-5b89f0995189"
+MELIPAYAMAK_SHARED_TOKEN="f4d51b0e646848f498b36366261abdbc"
+# تنظیمات سامانه پیامک و OTP اکو
+MELIPAYAMAK_SHARED_TOKEN = os.getenv('MELIPAYAMAK_SHARED_TOKEN','f4d51b0e646848f498b36366261abdbc')
+MELIPAYAMAK_BODY_ID_OTP = 572362
+REDIS_OTP_DB = 4
+
 
 REDIS_HOST = 'my_redis'
 REDIS_PORT = 6379
